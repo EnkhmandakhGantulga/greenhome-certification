@@ -15,11 +15,11 @@ export default function Landing() {
             </span>
           </div>
           <div className="flex items-center gap-4">
-            <Link href="/api/login">
+            <a href="/api/login">
               <Button variant="default" className="font-semibold shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all">
                 Sign In / Register
               </Button>
-            </Link>
+            </a>
           </div>
         </div>
       </nav>
@@ -37,11 +37,11 @@ export default function Landing() {
               Streamline your project certification process. Submit requests, manage audits, and receive certificates in one secure platform.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="/api/login">
+              <a href="/api/login">
                 <Button size="lg" className="text-lg px-8 py-6 rounded-xl shadow-xl hover:-translate-y-1 transition-all duration-300">
                   Get Started
                 </Button>
-              </Link>
+              </a>
               <Button size="lg" variant="outline" className="text-lg px-8 py-6 rounded-xl border-2">
                 Learn More
               </Button>
