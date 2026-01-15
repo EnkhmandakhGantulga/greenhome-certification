@@ -1,0 +1,26 @@
+FROM node:20-alpine AS builder
+
+WORKDIR /app
+
+COPY package.json package-lock.json* ./
+RUN npm ci
+
+COPY . .
+RUN npm run build
+
+FROM python:3.11-slim
+
+WORKDIR /app
+
+COPY docker/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY python_backend ./python_backend
+COPY --from=builder /app/dist ./dist
+
+EXPOSE 5000
+
+ENV NODE_ENV=production
+ENV PYTHONPATH=/app/python_backend
+
+CMD ["python", "python_backend/main.py"]
