@@ -28,7 +28,7 @@ app.include_router(audits.router)
 app.include_router(auditors.router)
 app.include_router(uploads.router)
 
-DIST_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "dist", "public")
+DIST_PATH = os.environ.get("DIST_PATH", os.path.join(os.path.dirname(os.path.dirname(__file__)), "dist", "public"))
 VITE_DEV_SERVER = "http://localhost:5173"
 IS_DEV = os.environ.get("NODE_ENV") != "production"
 
