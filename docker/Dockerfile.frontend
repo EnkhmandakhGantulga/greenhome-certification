@@ -18,10 +18,13 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY python_backend ./python_backend
 COPY --from=builder /app/dist/public ./dist/public
 
+RUN mkdir -p /app/uploads
+
 EXPOSE 5000
 
 ENV NODE_ENV=production
 ENV PYTHONPATH=/app/python_backend
 ENV DIST_PATH=/app/dist/public
+ENV UPLOAD_DIR=/app/uploads
 
 CMD ["python", "python_backend/main.py"]

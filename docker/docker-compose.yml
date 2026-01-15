@@ -11,6 +11,9 @@ services:
       - DATABASE_URL=postgresql://greenhome:greenhome123@db:5432/greenhome
       - SESSION_SECRET=greenhome-production-secret-key-2024
       - NODE_ENV=production
+      - UPLOAD_DIR=/app/uploads
+    volumes:
+      - uploads_data:/app/uploads
     depends_on:
       db:
         condition: service_healthy
@@ -35,3 +38,4 @@ services:
 
 volumes:
   postgres_data:
+  uploads_data:
