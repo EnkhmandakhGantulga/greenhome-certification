@@ -17,6 +17,43 @@ export async function registerRoutes(
   registerAuthRoutes(app);
   registerObjectStorageRoutes(app);
 
+  // === TEST LOGIN ENDPOINTS (for development/testing only) ===
+  // These bypass normal auth flow for testing purposes
+  
+  // Get list of test users
+  app.get("/api/test/users", async (req, res) => {
+    const testUsers = await storage.getTestUsers();
+    res.json(testUsers);
+  });
+
+  // Login as a specific test user
+  app.post("/api/test/login/:userId", async (req, res) => {
+    const { userId } = req.params;
+    const user = await storage.getTestUser(userId);
+    
+    if (!user) {
+      return res.status(404).json({ message: "Test user not found" });
+    }
+
+    // Create a fake session for the test user
+    const fakeUser = {
+      claims: {
+        sub: user.id,
+        email: user.email,
+        first_name: user.firstName,
+        last_name: user.lastName,
+      },
+      expires_at: Math.floor(Date.now() / 1000) + 86400, // 24 hours
+    };
+
+    req.login(fakeUser, (err) => {
+      if (err) {
+        return res.status(500).json({ message: "Login failed" });
+      }
+      res.json({ success: true, user: fakeUser.claims });
+    });
+  });
+
   // === Profiles ===
   app.get(api.profiles.me.path, isAuthenticated, async (req: any, res) => {
     const profile = await storage.getProfile(req.user.claims.sub);

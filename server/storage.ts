@@ -33,6 +33,10 @@ export interface IStorage {
   
   // Users (helper for assignment)
   getAuditors(): Promise<User[]>;
+  
+  // Test users (for development/testing)
+  getTestUsers(): Promise<(User & { role: string })[]>;
+  getTestUser(userId: string): Promise<User | undefined>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -149,6 +153,22 @@ export class DatabaseStorage implements IStorage {
       .innerJoin(profiles, eq(users.id, profiles.userId))
       .where(eq(profiles.role, 'auditor'));
     return rows.map(r => r.user);
+  }
+
+  // Test users (for development/testing)
+  async getTestUsers(): Promise<(User & { role: string })[]> {
+    const rows = await db.select({ 
+      user: users,
+      profile: profiles 
+    })
+      .from(users)
+      .innerJoin(profiles, eq(users.id, profiles.userId));
+    return rows.map(r => ({ ...r.user, role: r.profile.role }));
+  }
+
+  async getTestUser(userId: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.id, userId));
+    return user;
   }
 }
 

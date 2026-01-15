@@ -15,6 +15,11 @@ export default function Landing() {
             </span>
           </div>
           <div className="flex items-center gap-4">
+            <Link href="/test-login">
+              <Button variant="outline" className="font-semibold">
+                Тест нэвтрэлт
+              </Button>
+            </Link>
             <a href="/api/login">
               <Button variant="default" className="font-semibold shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all">
                 Нэвтрэх / Бүртгүүлэх

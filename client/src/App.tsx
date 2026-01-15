@@ -14,6 +14,7 @@ import ProfileSetup from "@/pages/ProfileSetup";
 import RequestList from "@/pages/RequestList";
 import RequestDetail from "@/pages/RequestDetail";
 import NewRequest from "@/pages/NewRequest";
+import TestLogin from "@/pages/TestLogin";
 
 function ProtectedRoute({ component: Component }: { component: React.ComponentType }) {
   const { user, isLoading } = useAuth();
@@ -76,6 +77,11 @@ function Router() {
 
       <Route path="/profile-setup">
         {user ? <ProfileSetup /> : <Redirect to="/" />}
+      </Route>
+
+      {/* Test Login (for development/testing) */}
+      <Route path="/test-login">
+        <TestLogin />
       </Route>
 
       <Route component={NotFound} />
