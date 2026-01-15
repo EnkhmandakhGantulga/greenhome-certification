@@ -381,7 +381,47 @@ export default function RequestDetail() {
                     </div>
 
                     {isAuditor && request.status === "auditor_assigned" && (
-                      <Button onClick={handleSubmitAudit} className="w-full">Аудит тайлан илгээх</Button>
+                      <div className="space-y-4">
+                        <Separator />
+                        <div className="space-y-2">
+                          <Label className="font-medium">Аудитын албан тайлан оруулах</Label>
+                          <p className="text-sm text-muted-foreground">
+                            Аудитын албан тайлан (PDF, Word, эсвэл бусад баримт бичиг) оруулна уу.
+                          </p>
+                          <ObjectUploader
+                            onGetUploadParameters={getUploadParams}
+                            onComplete={handleFileUpload("audit_report")}
+                            maxNumberOfFiles={5}
+                          >
+                            <Upload className="h-4 w-4 mr-2" /> Аудит тайлан файл оруулах
+                          </ObjectUploader>
+                        </div>
+                        
+                        {/* Show uploaded audit reports */}
+                        {files?.filter(f => f.type === 'audit_report').length > 0 && (
+                          <div className="space-y-2">
+                            <Label className="text-sm text-muted-foreground">Оруулсан аудит тайлангууд:</Label>
+                            <div className="flex flex-wrap gap-2">
+                              {files?.filter(f => f.type === 'audit_report').map(file => (
+                                <a 
+                                  key={file.id} 
+                                  href={file.url} 
+                                  target="_blank" 
+                                  rel="noopener noreferrer"
+                                  className="flex items-center gap-2 px-3 py-2 bg-muted rounded-lg text-sm hover:bg-muted/80"
+                                >
+                                  <File className="h-4 w-4" />
+                                  <span className="truncate max-w-[200px]">{file.name}</span>
+                                </a>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                        
+                        <Button onClick={handleSubmitAudit} className="w-full" data-testid="button-submit-audit">
+                          Аудит тайлан илгээх
+                        </Button>
+                      </div>
                     )}
                   </CardContent>
                 </Card>
