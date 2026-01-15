@@ -16,8 +16,8 @@ class UserResponse(UserBase):
 
 class ProfileBase(BaseModel):
     role: str = "legal_entity"
-    organization_name: Optional[str] = None
-    phone_number: Optional[str] = None
+    organizationName: Optional[str] = None
+    phoneNumber: Optional[str] = None
     address: Optional[str] = None
 
 class ProfileCreate(ProfileBase):
@@ -31,20 +31,20 @@ class ProfileResponse(ProfileBase):
         from_attributes = True
 
 class RequestCreate(BaseModel):
-    project_type: str
-    project_area: Optional[str] = None
+    projectType: str
+    projectArea: Optional[str] = None
     location: Optional[str] = None
     description: Optional[str] = None
 
 class RequestUpdate(BaseModel):
     status: Optional[str] = None
-    project_type: Optional[str] = None
-    project_area: Optional[str] = None
+    projectType: Optional[str] = None
+    projectArea: Optional[str] = None
     location: Optional[str] = None
     description: Optional[str] = None
-    price_quote: Optional[int] = None
-    admin_comment: Optional[str] = None
-    auditor_id: Optional[str] = None
+    priceQuote: Optional[int] = None
+    adminComment: Optional[str] = None
+    auditorId: Optional[str] = None
 
 class RequestResponse(BaseModel):
     id: int
@@ -68,7 +68,7 @@ class RequestResponse(BaseModel):
         from_attributes = True
 
 class FileCreate(BaseModel):
-    request_id: int
+    requestId: int
     name: str
     url: str
     type: str
@@ -86,11 +86,11 @@ class FileResponse(BaseModel):
         from_attributes = True
 
 class AuditCreate(BaseModel):
-    checklist_data: Optional[Dict[str, Any]] = None
+    checklistData: Optional[Dict[str, Any]] = None
     conclusion: Optional[str] = None
 
 class AuditUpdate(BaseModel):
-    checklist_data: Optional[Dict[str, Any]] = None
+    checklistData: Optional[Dict[str, Any]] = None
     conclusion: Optional[str] = None
 
 class AuditResponse(BaseModel):

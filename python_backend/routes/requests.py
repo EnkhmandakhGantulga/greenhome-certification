@@ -111,8 +111,8 @@ def create_request(data: RequestCreate, request: Request, db: Session = Depends(
     new_request = RequestModel(
         user_id=user_id,
         status="submitted",
-        project_type=data.project_type,
-        project_area=data.project_area,
+        project_type=data.projectType,
+        project_area=data.projectArea,
         location=data.location,
         description=data.description
     )
@@ -134,20 +134,20 @@ def update_request(request_id: int, data: RequestUpdate, request: Request, db: S
     
     if data.status is not None:
         req.status = data.status
-    if data.project_type is not None:
-        req.project_type = data.project_type
-    if data.project_area is not None:
-        req.project_area = data.project_area
+    if data.projectType is not None:
+        req.project_type = data.projectType
+    if data.projectArea is not None:
+        req.project_area = data.projectArea
     if data.location is not None:
         req.location = data.location
     if data.description is not None:
         req.description = data.description
-    if data.price_quote is not None:
-        req.price_quote = data.price_quote
-    if data.admin_comment is not None:
-        req.admin_comment = data.admin_comment
-    if data.auditor_id is not None:
-        req.auditor_id = data.auditor_id
+    if data.priceQuote is not None:
+        req.price_quote = data.priceQuote
+    if data.adminComment is not None:
+        req.admin_comment = data.adminComment
+    if data.auditorId is not None:
+        req.auditor_id = data.auditorId
     
     db.commit()
     db.refresh(req)

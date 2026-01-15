@@ -60,15 +60,15 @@ def create_or_update_profile(data: ProfileCreate, request: Request, db: Session 
     
     if profile:
         profile.role = data.role
-        profile.organization_name = data.organization_name
-        profile.phone_number = data.phone_number
+        profile.organization_name = data.organizationName
+        profile.phone_number = data.phoneNumber
         profile.address = data.address
     else:
         profile = Profile(
             user_id=user_id,
             role=data.role,
-            organization_name=data.organization_name,
-            phone_number=data.phone_number,
+            organization_name=data.organizationName,
+            phone_number=data.phoneNumber,
             address=data.address
         )
         db.add(profile)

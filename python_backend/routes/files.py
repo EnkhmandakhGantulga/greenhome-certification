@@ -36,7 +36,7 @@ def create_file(data: FileCreate, request: Request, db: Session = Depends(get_db
     user_id = get_current_user_id(request)
     
     new_file = File(
-        request_id=data.request_id,
+        request_id=data.requestId,
         user_id=user_id,
         name=data.name,
         url=data.url,

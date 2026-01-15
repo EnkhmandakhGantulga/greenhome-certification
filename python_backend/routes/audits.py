@@ -22,7 +22,7 @@ def create_audit(request_id: int, data: AuditCreate, request: Request, db: Sessi
     new_audit = Audit(
         request_id=request_id,
         auditor_id=user_id,
-        checklist_data=data.checklist_data,
+        checklist_data=data.checklistData,
         conclusion=data.conclusion
     )
     
@@ -48,8 +48,8 @@ def update_audit(request_id: int, data: AuditUpdate, request: Request, db: Sessi
     if not audit:
         raise HTTPException(status_code=404, detail="Audit not found")
     
-    if data.checklist_data is not None:
-        audit.checklist_data = data.checklist_data
+    if data.checklistData is not None:
+        audit.checklist_data = data.checklistData
     if data.conclusion is not None:
         audit.conclusion = data.conclusion
     
