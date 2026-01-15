@@ -120,9 +120,20 @@ def get_current_user(request: Request):
     return request.session["user"]
 
 @router.post("/api/auth/logout")
-def logout(request: Request):
+def logout_post(request: Request):
     request.session.clear()
     return {"success": True}
+
+@router.get("/api/logout")
+def logout_redirect(request: Request):
+    from fastapi.responses import RedirectResponse
+    request.session.clear()
+    return RedirectResponse(url="/", status_code=302)
+
+@router.get("/api/login")
+def login_redirect():
+    from fastapi.responses import RedirectResponse
+    return RedirectResponse(url="/test-login", status_code=302)
 
 def get_current_user_id(request: Request) -> str:
     if "user_id" not in request.session:
