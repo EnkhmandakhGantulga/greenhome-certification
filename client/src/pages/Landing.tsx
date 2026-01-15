@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { ShieldCheck, CheckCircle2, Building2, FileCheck } from "lucide-react";
+import { Leaf, CheckCircle2, Building2, FileCheck, Home } from "lucide-react";
 
 export default function Landing() {
   return (
@@ -9,9 +9,9 @@ export default function Landing() {
       <nav className="border-b border-border/50 backdrop-blur-md fixed w-full z-50 bg-background/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <ShieldCheck className="h-8 w-8 text-primary" />
+            <Leaf className="h-8 w-8 text-primary" />
             <span className="font-display font-bold text-xl tracking-tight">
-              Certify<span className="text-primary">Platform</span>
+              Green<span className="text-primary">Home</span>
             </span>
           </div>
           <div className="flex items-center gap-4">
@@ -29,12 +29,12 @@ export default function Landing() {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-8 animate-fade-in">
             <h1 className="text-5xl sm:text-6xl font-display font-bold leading-tight text-foreground">
-              Professional <br />
-              <span className="text-primary">Certification</span> & <br />
-              <span className="text-gradient">Auditing</span>
+              Sustainable <br />
+              <span className="text-primary">Building</span> <br />
+              <span className="text-gradient">Certification</span>
             </h1>
             <p className="text-xl text-muted-foreground leading-relaxed max-w-lg">
-              Streamline your project certification process. Submit requests, manage audits, and receive certificates in one secure platform.
+              Get your green building projects certified. Submit requests, work with expert auditors, and receive your eco-certification seamlessly.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <a href="/api/login">
@@ -49,46 +49,46 @@ export default function Landing() {
             
             <div className="pt-8 flex items-center gap-6 text-sm text-muted-foreground font-medium">
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="h-5 w-5 text-green-500" />
-                <span>ISO 9001 Compliant</span>
+                <CheckCircle2 className="h-5 w-5 text-primary" />
+                <span>Eco-Certified</span>
               </div>
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="h-5 w-5 text-green-500" />
-                <span>Secure Workflow</span>
+                <CheckCircle2 className="h-5 w-5 text-primary" />
+                <span>LEED Compatible</span>
               </div>
             </div>
           </div>
 
-          <div className="relative animate-fade-in delay-200 lg:h-[600px] rounded-3xl overflow-hidden shadow-2xl border border-border/50 bg-gradient-to-br from-gray-50 to-gray-200 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center">
-            {/* Abstract visual representation instead of generic stock photo */}
+          <div className="relative animate-fade-in delay-200 lg:h-[600px] rounded-3xl overflow-hidden shadow-2xl border border-border/50 bg-gradient-to-br from-emerald-50 to-green-100 dark:from-emerald-950 dark:to-green-900 flex items-center justify-center">
+            {/* Abstract visual representation */}
             <div className="relative w-full h-full p-8 flex flex-col gap-6">
               <div className="absolute top-10 right-10 bg-white dark:bg-gray-800 p-4 rounded-xl shadow-lg border border-border/50 w-64 transform rotate-3 hover:rotate-0 transition-transform duration-500">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="h-10 w-10 bg-green-100 rounded-full flex items-center justify-center">
-                    <FileCheck className="h-5 w-5 text-green-600" />
+                  <div className="h-10 w-10 bg-emerald-100 rounded-full flex items-center justify-center">
+                    <FileCheck className="h-5 w-5 text-emerald-600" />
                   </div>
                   <div>
-                    <div className="font-bold text-sm">Certificate Issued</div>
+                    <div className="font-bold text-sm">Green Certificate Issued</div>
                     <div className="text-xs text-muted-foreground">Just now</div>
                   </div>
                 </div>
-                <div className="h-2 bg-gray-100 rounded-full w-full mb-2"></div>
-                <div className="h-2 bg-gray-100 rounded-full w-2/3"></div>
+                <div className="h-2 bg-emerald-100 rounded-full w-full mb-2"></div>
+                <div className="h-2 bg-emerald-100 rounded-full w-2/3"></div>
               </div>
 
               <div className="absolute bottom-20 left-10 bg-white dark:bg-gray-800 p-4 rounded-xl shadow-lg border border-border/50 w-72 transform -rotate-2 hover:rotate-0 transition-transform duration-500">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="h-10 w-10 bg-blue-100 rounded-full flex items-center justify-center">
-                    <Building2 className="h-5 w-5 text-blue-600" />
+                  <div className="h-10 w-10 bg-green-100 rounded-full flex items-center justify-center">
+                    <Home className="h-5 w-5 text-green-600" />
                   </div>
                   <div>
-                    <div className="font-bold text-sm">New Request Submitted</div>
-                    <div className="text-xs text-muted-foreground">Project A-123</div>
+                    <div className="font-bold text-sm">Eco-Home Project</div>
+                    <div className="text-xs text-muted-foreground">Under Review</div>
                   </div>
                 </div>
                 <div className="flex gap-2 mt-2">
-                  <div className="px-2 py-1 bg-gray-100 rounded text-xs">Pending</div>
-                  <div className="px-2 py-1 bg-gray-100 rounded text-xs">High Priority</div>
+                  <div className="px-2 py-1 bg-emerald-100 text-emerald-700 rounded text-xs">Sustainable</div>
+                  <div className="px-2 py-1 bg-green-100 text-green-700 rounded text-xs">Energy Efficient</div>
                 </div>
               </div>
             </div>
@@ -101,9 +101,9 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { title: "Submit Request", desc: "Easy to use forms for project submission", icon: FileText },
-              { title: "Expert Audit", desc: "Qualified auditors review your documentation", icon: ShieldCheck },
-              { title: "Get Certified", desc: "Receive your official digital certificate", icon: CheckCircle2 },
+              { title: "Submit Your Project", desc: "Easy forms for green building project submission", icon: FileText },
+              { title: "Expert Green Audit", desc: "Qualified auditors review your sustainability documentation", icon: Leaf },
+              { title: "Get Eco-Certified", desc: "Receive your official green building certificate", icon: CheckCircle2 },
             ].map((feature, i) => (
               <div key={i} className="bg-card p-8 rounded-2xl border border-border/50 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                 <div className="h-12 w-12 bg-primary/10 rounded-xl flex items-center justify-center mb-6 text-primary">
