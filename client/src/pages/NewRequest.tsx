@@ -70,13 +70,10 @@ export default function NewRequest() {
     try {
       setIsUploading(true);
       
-      // 1. Create the request first to get the ID
       const res = await createRequest.mutateAsync(values);
       const requestId = res.id;
       
-      // 2. Upload each file
       for (const { file } of pendingFiles) {
-        // Get presigned URL
         const urlRes = await fetch("/api/uploads/request-url", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -89,14 +86,12 @@ export default function NewRequest() {
         });
         const { uploadURL, objectPath } = await urlRes.json();
         
-        // Upload file to storage
         await fetch(uploadURL, {
           method: "PUT",
           body: file,
           headers: { "Content-Type": file.type || "application/octet-stream" },
         });
         
-        // Save file record to database
         await createFile.mutateAsync({
           requestId,
           name: file.name,
@@ -119,20 +114,20 @@ export default function NewRequest() {
         <Link href="/requests">
           <Button variant="ghost" className="pl-0 text-gray-500 hover:text-gray-900">
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Requests
+            Хүсэлтүүд рүү буцах
           </Button>
         </Link>
 
         <div>
-          <h1 className="text-3xl font-display font-bold text-gray-900">Submit New Request</h1>
-          <p className="text-gray-500 mt-2">Fill in the project details to start the certification process.</p>
+          <h1 className="text-3xl font-display font-bold text-gray-900">Шинэ хүсэлт илгээх</h1>
+          <p className="text-gray-500 mt-2">Гэрчилгээжилтийн үйл явцыг эхлүүлэхийн тулд төслийн мэдээллээ бөглөнө үү.</p>
         </div>
 
         <Card className="border-none shadow-lg">
           <CardHeader>
-            <CardTitle>Project Details</CardTitle>
+            <CardTitle>Төслийн мэдээлэл</CardTitle>
             <CardDescription>
-              Provide accurate information to receive a quick quote.
+              Үнийн санал хурдан авахын тулд үнэн зөв мэдээлэл оруулна уу.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -143,9 +138,9 @@ export default function NewRequest() {
                   name="projectType"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Project Type / Title</FormLabel>
+                      <FormLabel>Төслийн төрөл / Гарчиг</FormLabel>
                       <FormControl>
-                        <Input placeholder="e.g. Warehouse Construction, Office Renovation" {...field} />
+                        <Input placeholder="Жишээ нь: Агуулахын барилга, Оффисын засвар" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -158,9 +153,9 @@ export default function NewRequest() {
                     name="projectArea"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Area (m²)</FormLabel>
+                        <FormLabel>Талбай (м²)</FormLabel>
                         <FormControl>
-                          <Input placeholder="e.g. 500" {...field} value={field.value || ''} />
+                          <Input placeholder="Жишээ нь: 500" {...field} value={field.value || ''} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -172,9 +167,9 @@ export default function NewRequest() {
                     name="location"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Location</FormLabel>
+                        <FormLabel>Байршил</FormLabel>
                         <FormControl>
-                          <Input placeholder="City, District" {...field} value={field.value || ''} />
+                          <Input placeholder="Хот, Дүүрэг" {...field} value={field.value || ''} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -187,10 +182,10 @@ export default function NewRequest() {
                   name="description"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Description</FormLabel>
+                      <FormLabel>Тайлбар</FormLabel>
                       <FormControl>
                         <Textarea 
-                          placeholder="Describe the scope of work..." 
+                          placeholder="Ажлын хүрээг тайлбарлана уу..." 
                           className="min-h-[120px]"
                           {...field} 
                           value={field.value || ''} 
@@ -203,9 +198,9 @@ export default function NewRequest() {
 
                 {/* File Upload Section */}
                 <div className="space-y-3">
-                  <FormLabel>Project Files (Optional)</FormLabel>
+                  <FormLabel>Төслийн файлууд (Заавал биш)</FormLabel>
                   <FormDescription>
-                    Upload any relevant documents, drawings, or plans for your project.
+                    Төсөлтэй холбоотой баримт бичиг, зураг, төлөвлөгөөг оруулна уу.
                   </FormDescription>
                   
                   <div 
@@ -221,8 +216,8 @@ export default function NewRequest() {
                       accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png,.dwg,.zip"
                     />
                     <Upload className="h-10 w-10 text-gray-400 mx-auto mb-3" />
-                    <p className="text-sm text-gray-600 font-medium">Click to upload files</p>
-                    <p className="text-xs text-gray-400 mt-1">PDF, DOC, XLS, Images, DWG, ZIP</p>
+                    <p className="text-sm text-gray-600 font-medium">Файл оруулах</p>
+                    <p className="text-xs text-gray-400 mt-1">PDF, DOC, XLS, Зураг, DWG, ZIP</p>
                   </div>
 
                   {/* File List */}
@@ -265,12 +260,12 @@ export default function NewRequest() {
                     {isUploading ? (
                       <>
                         <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                        Uploading Files...
+                        Файл оруулж байна...
                       </>
                     ) : createRequest.isPending ? (
-                      "Submitting..."
+                      "Илгээж байна..."
                     ) : (
-                      "Submit Request"
+                      "Хүсэлт илгээх"
                     )}
                   </Button>
                 </div>

@@ -14,6 +14,12 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
+const roleLabels: Record<string, string> = {
+  legal_entity: "Хуулийн этгээд",
+  admin: "Админ",
+  auditor: "Аудитор"
+};
+
 export function Layout({ children }: { children: React.ReactNode }) {
   const { user, logout } = useAuth();
   const { data: profile } = useProfile();
@@ -25,8 +31,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
   const role = profile.role;
 
   const navItems = [
-    { label: "Dashboard", href: "/", icon: LayoutDashboard },
-    { label: "Requests", href: "/requests", icon: FileText },
+    { label: "Хяналтын самбар", href: "/", icon: LayoutDashboard },
+    { label: "Хүсэлтүүд", href: "/requests", icon: FileText },
   ];
 
   if (role === "admin") {
@@ -51,7 +57,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <div className="h-16 flex items-center px-6 border-b border-gray-100">
           <Leaf className="h-8 w-8 text-primary mr-2" />
           <span className="font-display font-bold text-xl tracking-tight text-gray-900">
-            Green<span className="text-primary">Home</span>
+            Ногоон<span className="text-primary">Гэр</span>
           </span>
           <button 
             className="ml-auto lg:hidden text-gray-500"
@@ -86,7 +92,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
               <p className="text-sm font-medium text-gray-900 truncate">
                 {user.firstName ? `${user.firstName} ${user.lastName || ''}` : profile.organizationName}
               </p>
-              <p className="text-xs text-gray-500 capitalize truncate">{role.replace('_', ' ')}</p>
+              <p className="text-xs text-gray-500 truncate">{roleLabels[role] || role}</p>
             </div>
           </div>
           <Button 
@@ -95,7 +101,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
             onClick={() => logout()}
           >
             <LogOut className="h-4 w-4 mr-2" />
-            Sign Out
+            Гарах
           </Button>
         </div>
       </aside>
@@ -106,7 +112,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
           <button onClick={() => setMobileOpen(true)} className="p-2 -ml-2 text-gray-500">
             <Menu className="h-6 w-6" />
           </button>
-          <span className="ml-3 font-display font-bold text-lg">GreenHome</span>
+          <span className="ml-3 font-display font-bold text-lg">НогоонГэр</span>
         </header>
 
         <div className="flex-1 overflow-auto p-4 sm:p-6 lg:p-8">

@@ -11,13 +11,13 @@ export default function Landing() {
           <div className="flex items-center gap-2">
             <Leaf className="h-8 w-8 text-primary" />
             <span className="font-display font-bold text-xl tracking-tight">
-              Green<span className="text-primary">Home</span>
+              Ногоон<span className="text-primary">Гэр</span>
             </span>
           </div>
           <div className="flex items-center gap-4">
             <a href="/api/login">
               <Button variant="default" className="font-semibold shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all">
-                Sign In / Register
+                Нэвтрэх / Бүртгүүлэх
               </Button>
             </a>
           </div>
@@ -29,32 +29,32 @@ export default function Landing() {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-8 animate-fade-in">
             <h1 className="text-5xl sm:text-6xl font-display font-bold leading-tight text-foreground">
-              Sustainable <br />
-              <span className="text-primary">Building</span> <br />
-              <span className="text-gradient">Certification</span>
+              Тогтвортой <br />
+              <span className="text-primary">Барилгын</span> <br />
+              <span className="text-gradient">Гэрчилгээ</span>
             </h1>
             <p className="text-xl text-muted-foreground leading-relaxed max-w-lg">
-              Get your green building projects certified. Submit requests, work with expert auditors, and receive your eco-certification seamlessly.
+              Ногоон барилгын төслүүдээ баталгаажуулаарай. Хүсэлт илгээж, мэргэжлийн аудиторуудтай хамтран ажиллаж, эко-гэрчилгээгээ хялбархан аваарай.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <a href="/api/login">
                 <Button size="lg" className="text-lg px-8 py-6 rounded-xl shadow-xl hover:-translate-y-1 transition-all duration-300">
-                  Get Started
+                  Эхлэх
                 </Button>
               </a>
               <Button size="lg" variant="outline" className="text-lg px-8 py-6 rounded-xl border-2">
-                Learn More
+                Дэлгэрэнгүй
               </Button>
             </div>
             
             <div className="pt-8 flex items-center gap-6 text-sm text-muted-foreground font-medium">
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="h-5 w-5 text-primary" />
-                <span>Eco-Certified</span>
+                <span>Эко-баталгаажсан</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="h-5 w-5 text-primary" />
-                <span>LEED Compatible</span>
+                <span>LEED нийцтэй</span>
               </div>
             </div>
           </div>
@@ -68,8 +68,8 @@ export default function Landing() {
                     <FileCheck className="h-5 w-5 text-emerald-600" />
                   </div>
                   <div>
-                    <div className="font-bold text-sm">Green Certificate Issued</div>
-                    <div className="text-xs text-muted-foreground">Just now</div>
+                    <div className="font-bold text-sm">Гэрчилгээ олгогдлоо</div>
+                    <div className="text-xs text-muted-foreground">Саяхан</div>
                   </div>
                 </div>
                 <div className="h-2 bg-emerald-100 rounded-full w-full mb-2"></div>
@@ -82,13 +82,13 @@ export default function Landing() {
                     <Home className="h-5 w-5 text-green-600" />
                   </div>
                   <div>
-                    <div className="font-bold text-sm">Eco-Home Project</div>
-                    <div className="text-xs text-muted-foreground">Under Review</div>
+                    <div className="font-bold text-sm">Эко-гэрийн төсөл</div>
+                    <div className="text-xs text-muted-foreground">Хянагдаж байна</div>
                   </div>
                 </div>
                 <div className="flex gap-2 mt-2">
-                  <div className="px-2 py-1 bg-emerald-100 text-emerald-700 rounded text-xs">Sustainable</div>
-                  <div className="px-2 py-1 bg-green-100 text-green-700 rounded text-xs">Energy Efficient</div>
+                  <div className="px-2 py-1 bg-emerald-100 text-emerald-700 rounded text-xs">Тогтвортой</div>
+                  <div className="px-2 py-1 bg-green-100 text-green-700 rounded text-xs">Эрчим хүчний хэмнэлттэй</div>
                 </div>
               </div>
             </div>
@@ -101,9 +101,9 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { title: "Submit Your Project", desc: "Easy forms for green building project submission", icon: FileText },
-              { title: "Expert Green Audit", desc: "Qualified auditors review your sustainability documentation", icon: Leaf },
-              { title: "Get Eco-Certified", desc: "Receive your official green building certificate", icon: CheckCircle2 },
+              { title: "Төсөл илгээх", desc: "Ногоон барилгын төслийн хүсэлт илгээх хялбар маягт", icon: FileText },
+              { title: "Мэргэжлийн аудит", desc: "Мэргэшсэн аудиторууд таны баримт бичгийг хянана", icon: Leaf },
+              { title: "Гэрчилгээ авах", desc: "Албан ёсны ногоон барилгын гэрчилгээ хүлээн авах", icon: CheckCircle2 },
             ].map((feature, i) => (
               <div key={i} className="bg-card p-8 rounded-2xl border border-border/50 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                 <div className="h-12 w-12 bg-primary/10 rounded-xl flex items-center justify-center mb-6 text-primary">
