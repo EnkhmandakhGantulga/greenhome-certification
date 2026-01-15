@@ -14,7 +14,7 @@ import { Link, useRoute } from "wouter";
 import { ArrowLeft, File, Download, Upload, CheckCircle2, AlertCircle } from "lucide-react";
 import { format } from "date-fns";
 import { ObjectUploader } from "@/components/ObjectUploader";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Separator } from "@/components/ui/separator";
 
 export default function RequestDetail() {
@@ -38,6 +38,8 @@ export default function RequestDetail() {
     plumbing: false
   });
   const [conclusion, setConclusion] = useState("");
+  
+  const filePathMapRef = useRef<Map<string, string>>(new Map());
 
   if (isLoading || !request || !profile) {
     return (
@@ -47,23 +49,30 @@ export default function RequestDetail() {
     );
   }
 
+  // Helper to get upload parameters and track the objectPath
+  const getUploadParams = async (file: any) => {
+    const res = await fetch("/api/uploads/request-url", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: file.name, size: file.size, contentType: file.type }),
+    });
+    const { uploadURL, objectPath } = await res.json();
+    filePathMapRef.current.set(file.id, objectPath);
+    return { method: "PUT" as const, url: uploadURL, headers: { "Content-Type": file.type || "application/octet-stream" } };
+  };
+
   // Helper to handle file uploads
   const handleFileUpload = (type: string) => async (result: any) => {
-    // result comes from Uppy complete event
     if (result.successful) {
       for (const file of result.successful) {
-        // We know the upload URL was generated via our API which returns uploadURL and objectPath
-        // Ideally ObjectUploader should pass back the metadata we need.
-        // For now, let's assume we can reconstruct the URL or the file hook handles it.
-        // But since ObjectUploader is generic, let's just save the record here.
-        // In a real app, we'd want the 'objectPath' returned from the presigned URL request.
-        // Assuming the file.uploadURL is the GCS url.
+        const objectPath = filePathMapRef.current.get(file.id) || file.uploadURL;
         await createFile.mutateAsync({
           requestId: id,
           name: file.name,
-          url: file.uploadURL, // This is the full GCS url
+          url: objectPath,
           type: type as any,
         });
+        filePathMapRef.current.delete(file.id);
       }
     }
   };
@@ -222,18 +231,10 @@ export default function RequestDetail() {
                   <CardContent className="space-y-4">
                     <div className="flex gap-4 items-center">
                       <ObjectUploader
-                         onGetUploadParameters={async (file) => {
-                           const res = await fetch("/api/uploads/request-url", {
-                             method: "POST",
-                             headers: { "Content-Type": "application/json" },
-                             body: JSON.stringify({ name: file.name, size: file.size, contentType: file.type }),
-                           });
-                           const { uploadURL } = await res.json();
-                           return { method: "PUT", url: uploadURL, headers: { "Content-Type": file.type } };
-                         }}
+                         onGetUploadParameters={getUploadParams}
                          onComplete={handleFileUpload("contract")}
                       >
-                        <Button variant="outline"><Upload className="mr-2 h-4 w-4" /> Upload Contract PDF</Button>
+                        <Upload className="mr-2 h-4 w-4" /> Upload Contract PDF
                       </ObjectUploader>
                       
                       <Button onClick={handleContractSigned}>Mark Contract Signed</Button>
@@ -262,23 +263,13 @@ export default function RequestDetail() {
                 {/* User upload action */}
                 {isUser && request.status === "contract_signed" && (
                   <ObjectUploader
-                     onGetUploadParameters={async (file) => {
-                       const res = await fetch("/api/uploads/request-url", {
-                         method: "POST",
-                         headers: { "Content-Type": "application/json" },
-                         body: JSON.stringify({ name: file.name, size: file.size, contentType: file.type }),
-                       });
-                       const { uploadURL } = await res.json();
-                       return { method: "PUT", url: uploadURL, headers: { "Content-Type": file.type } };
-                     }}
+                     onGetUploadParameters={getUploadParams}
                      onComplete={async (res) => {
                        await handleFileUpload("project_file")(res);
-                       await handleProjectFilesUploaded(); // Auto advance status for UX simplicity here
+                       await handleProjectFilesUploaded();
                      }}
                   >
-                    <Button>
-                      <Upload className="h-4 w-4 mr-2" /> Upload Project Files
-                    </Button>
+                    <Upload className="h-4 w-4 mr-2" /> Upload Project Files
                   </ObjectUploader>
                 )}
               </div>
@@ -390,21 +381,13 @@ export default function RequestDetail() {
                   </CardHeader>
                   <CardContent className="flex flex-col gap-4">
                     <ObjectUploader
-                         onGetUploadParameters={async (file) => {
-                           const res = await fetch("/api/uploads/request-url", {
-                             method: "POST",
-                             headers: { "Content-Type": "application/json" },
-                             body: JSON.stringify({ name: file.name, size: file.size, contentType: file.type }),
-                           });
-                           const { uploadURL } = await res.json();
-                           return { method: "PUT", url: uploadURL, headers: { "Content-Type": file.type } };
-                         }}
+                         onGetUploadParameters={getUploadParams}
                          onComplete={async (res) => {
                            await handleIssueCertificate(res);
                            await handleCertificateIssued();
                          }}
                     >
-                      <Button className="w-full"><Upload className="mr-2 h-4 w-4" /> Upload Final Certificate</Button>
+                      <Upload className="mr-2 h-4 w-4" /> Upload Final Certificate
                     </ObjectUploader>
                   </CardContent>
                 </Card>
