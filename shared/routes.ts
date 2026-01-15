@@ -108,6 +108,22 @@ export const api = {
     }
   },
 
+  // Auditors (for assignment)
+  auditors: {
+    list: {
+      method: 'GET' as const,
+      path: '/api/auditors',
+      responses: {
+        200: z.array(z.object({
+          id: z.string(),
+          email: z.string().nullable(),
+          firstName: z.string().nullable(),
+          lastName: z.string().nullable(),
+        })),
+      },
+    },
+  },
+
   // Audits
   audits: {
     create: {

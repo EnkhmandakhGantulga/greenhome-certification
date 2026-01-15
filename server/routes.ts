@@ -151,6 +151,12 @@ export async function registerRoutes(
     }
   });
 
+  // === Auditors ===
+  app.get(api.auditors.list.path, isAuthenticated, async (req: any, res) => {
+    const auditors = await storage.getAuditors();
+    res.json(auditors);
+  });
+
   // === Audits ===
   app.post(api.audits.create.path, isAuthenticated, async (req: any, res) => {
     try {

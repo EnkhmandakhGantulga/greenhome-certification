@@ -2,6 +2,7 @@ import { Layout } from "@/components/Layout";
 import { useRequest, useUpdateRequest } from "@/hooks/use-requests";
 import { useFiles, useCreateFile } from "@/hooks/use-files";
 import { useCreateAudit, useUpdateAudit } from "@/hooks/use-audits";
+import { useAuditors } from "@/hooks/use-auditors";
 import { useProfile } from "@/hooks/use-profiles";
 import { StatusBadge } from "@/components/StatusBadge";
 import { Button } from "@/components/ui/button";
@@ -10,8 +11,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Link, useRoute } from "wouter";
-import { ArrowLeft, File, Download, Upload, CheckCircle2, AlertCircle } from "lucide-react";
+import { ArrowLeft, File, Download, Upload, CheckCircle2, AlertCircle, UserCheck } from "lucide-react";
 import { format } from "date-fns";
 import { ObjectUploader } from "@/components/ObjectUploader";
 import { useState, useRef } from "react";
@@ -24,6 +26,7 @@ export default function RequestDetail() {
   const { data: request, isLoading } = useRequest(id);
   const { data: profile } = useProfile();
   const { data: files } = useFiles(id);
+  const { data: auditors } = useAuditors();
   
   const updateRequest = useUpdateRequest();
   const createFile = useCreateFile();
@@ -31,6 +34,7 @@ export default function RequestDetail() {
   const updateAudit = useUpdateAudit();
 
   const [quotePrice, setQuotePrice] = useState("");
+  const [selectedAuditorId, setSelectedAuditorId] = useState("");
   const [checklist, setChecklist] = useState<Record<string, boolean>>({
     fireSafety: false,
     structural: false,
@@ -99,13 +103,12 @@ export default function RequestDetail() {
   };
 
   const handleAssignAuditor = async () => {
-    // Mock assigning first available auditor or random for now, since we don't have auditor list UI here
-    // In real app: Select auditor from dropdown
-    // For MVP: assign to self if admin, or hardcode an ID if known.
-    // Let's assume there is an Auditor user with ID 'auditor-1' or similar. 
-    // Since we can't easily query users here without a new hook, let's skip actual ID assignment logic details 
-    // and just update status for demo flow visualization.
-    await updateRequest.mutateAsync({ id, status: "auditor_assigned" });
+    if (!selectedAuditorId) return;
+    await updateRequest.mutateAsync({ 
+      id, 
+      auditorId: selectedAuditorId,
+      status: "auditor_assigned" 
+    });
   };
 
   const handleSubmitAudit = async () => {
@@ -246,10 +249,42 @@ export default function RequestDetail() {
               {isAdmin && request.status === "files_uploaded" && (
                 <Card className="border-blue-200 bg-blue-50/50">
                   <CardHeader>
-                    <CardTitle className="text-blue-900">Admin Action: Assign Auditor</CardTitle>
+                    <CardTitle className="text-blue-900 flex items-center gap-2">
+                      <UserCheck className="h-5 w-5" />
+                      Admin Action: Assign Auditor
+                    </CardTitle>
+                    <CardDescription>Select an auditor to review this project.</CardDescription>
                   </CardHeader>
-                  <CardContent>
-                     <Button onClick={handleAssignAuditor}>Assign Available Auditor</Button>
+                  <CardContent className="space-y-4">
+                    <div className="flex gap-4 items-end">
+                      <div className="flex-1 space-y-2">
+                        <Label>Select Auditor</Label>
+                        <Select value={selectedAuditorId} onValueChange={setSelectedAuditorId}>
+                          <SelectTrigger data-testid="select-auditor">
+                            <SelectValue placeholder="Choose an auditor..." />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {auditors?.length === 0 && (
+                              <div className="p-2 text-sm text-gray-500">No auditors available</div>
+                            )}
+                            {auditors?.map((auditor) => (
+                              <SelectItem key={auditor.id} value={auditor.id}>
+                                {auditor.firstName && auditor.lastName 
+                                  ? `${auditor.firstName} ${auditor.lastName}` 
+                                  : auditor.email || `Auditor ${auditor.id.slice(0, 8)}`}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <Button 
+                        onClick={handleAssignAuditor} 
+                        disabled={!selectedAuditorId}
+                        data-testid="button-assign-auditor"
+                      >
+                        Assign Auditor
+                      </Button>
+                    </div>
                   </CardContent>
                 </Card>
               )}
