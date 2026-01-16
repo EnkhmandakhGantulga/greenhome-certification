@@ -67,6 +67,7 @@ export default function NewRequest() {
   };
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log("Form submitted with values:", values);
     try {
       setIsUploading(true);
       
@@ -132,7 +133,7 @@ export default function NewRequest() {
           </CardHeader>
           <CardContent>
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <form onSubmit={form.handleSubmit(onSubmit, (errors) => console.log("Form validation errors:", errors))} className="space-y-6">
                 <FormField
                   control={form.control}
                   name="projectType"
